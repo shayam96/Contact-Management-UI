@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as bootstrap from 'bootstrap';
 import { Contact } from 'src/Models/model';
 import { ContactService } from 'src/Services/contact-service.service';
 import { debounceTime, switchMap } from 'rxjs/operators';
@@ -19,6 +18,7 @@ export class AllContactComponent implements OnInit {
   searchTerm: any= null;
   modelChanged = new Subject<string>();
   ConstactList :Contact[] =[];
+  isFormVisible: boolean = false;
   
   constructor(private contactService: ContactService) {
   }
@@ -46,18 +46,18 @@ export class AllContactComponent implements OnInit {
     this.modelChanged.next(keyword);
   }
 
- 
- 
-  openFormModal(): void {
-    this.selectedContact = null;
-    this.isEditing = false;
-    this.openModal();
+
+  onNewContact(): void {
+    this.selectedContact = null; // Clear selection for new contact
+    this.isFormVisible = true; // Show the form
   }
+ 
+ 
 
   editContact(contact: Contact): void {
     this.selectedContact = contact;
     this.isEditing = true;
-    this.openModal();
+    this.isFormVisible = true;
 
   }
 
@@ -71,26 +71,22 @@ export class AllContactComponent implements OnInit {
 
   handleFormSubmit(contact: Contact): void {
     if (this.isEditing) {
+      this.isFormVisible = false
       this.contactService.updateContact(contact.id, contact).subscribe(() => {
         this.loadAllContacts();
+        
       });
     } else {
+      this.isFormVisible = false
       this.contactService.addContact(contact).subscribe(() => {
         this.loadAllContacts();
+        
       });
     }
-    this.closeModal();
+  
   }
 
-  private openModal(): void {
-    const modalElement = document.getElementById('contactFormModal');
-    const modal = new bootstrap.Modal(modalElement!);
-    modal.show();
-  }
+ 
 
-  private closeModal(): void {
-    const modalElement = document.getElementById('contactFormModal');
-    const modal = bootstrap.Modal.getInstance(modalElement!);
-    modal?.hide();
-  }
+
 }

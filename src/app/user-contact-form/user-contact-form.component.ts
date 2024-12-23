@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Contact } from 'src/Models/model';
+import { ContactService } from 'src/Services/contact-service.service';
 
 @Component({
   selector: 'app-user-contact-form',
@@ -11,18 +13,24 @@ export class UserContactFormComponent implements OnInit {
   @Input() contact: Contact | null = null;
   @Output() formSubmit = new EventEmitter<Contact>();
 
-  contactForm: FormGroup;
+  contactForm!: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private route: ActivatedRoute,  private router: Router
+    , private  contactService   : ContactService
+  ) {
     this.contactForm = this.fb.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
+   
   }
 
   ngOnInit(): void {
+   
+
   }
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['contact'] && changes['contact'].currentValue) {
@@ -56,5 +64,6 @@ export class UserContactFormComponent implements OnInit {
       this.formSubmit.emit(formValue);
     }
   }
+  
 
 }

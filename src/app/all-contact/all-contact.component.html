@@ -1,58 +1,54 @@
 <div class="container mt-5">
+  <app-user-contact-form *ngIf="isFormVisible"
+    [contact]="selectedContact"
+    (formSubmit)="handleFormSubmit($event)"
+  ></app-user-contact-form>
+
+  <div *ngIf="isFormVisible== false">
     <div class="d-flex mb-3">
-      <button class="btn btn-success" (click)="openFormModal()">New</button>
+      <button class="btn btn-success" (click)="onNewContact()">New</button>
     </div>
-    <div class="mb-3">
-        <input
-          type="text"
-          class="form-control"
-          placeholder="Search contacts..."
-          [(ngModel)]="searchTerm"
-          (ngModelChange)="onSearchChange($event)" 
-        />
-      </div>
-    <table class="table table-hover">
-      <thead >
-        <tr>
-          <th>Id</th>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let contact of ConstactList ; let i = index">
-          <td>{{ i + 1 }}</td>
-          <td>{{ contact.firstName }}</td>
-          <td>{{ contact.lastName }}</td>
-          <td>{{ contact.email }}</td>
-          <td>
-            <button class="btn btn-primary btn-sm me-2" (click)="editContact(contact)">Edit</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteContact(contact.id)">Delete</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="mb-3" >
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search contacts..."
+      [(ngModel)]="searchTerm"
+      (ngModelChange)="onSearchChange($event)"
+    />
   </div>
-  
-  
-  
-  <!-- Modal -->
-  <div class="modal fade custom-modal-bg"  tabindex="-1" id="contactFormModal" aria-labelledby="modalLabel" aria-hidden="true"  data-bs-backdrop="static">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="modalLabel">{{ isEditing ? 'Edit Contact' : 'Add Contact' }}</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <app-user-contact-form
-            [contact]="selectedContact"
-            (formSubmit)="handleFormSubmit($event)"
-          ></app-user-contact-form>
-        </div>
-      </div>
-    </div>
-  </div>
-  
+  <table class="table table-hover" >
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>Email</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contact of ConstactList; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ contact.firstName }}</td>
+        <td>{{ contact.lastName }}</td>
+        <td>{{ contact.email }}</td>
+        <td>
+          <button
+            class="btn btn-primary btn-sm me-2"
+            (click)="editContact(contact)"
+          >
+            Edit
+          </button>
+          <button
+            class="btn btn-danger btn-sm"
+            (click)="deleteContact(contact.id)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
