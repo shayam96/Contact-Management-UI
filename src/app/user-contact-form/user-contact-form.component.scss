@@ -1,0 +1,12 @@
+.is-invalid {
+    border: 1px solid red !important; /* Red border for invalid inputs */
+    background-image: none !important; /* Remove the red icon */
+    padding-right: 0 !important; /* Adjust padding if necessary */
+  }
+  
+  .text-danger {
+    color: red !important; 
+  }
+
+
+@import '~bootstrap/dist/css/bootstrap.min.css';
